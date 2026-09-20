@@ -1,0 +1,33 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>biscuit-apk</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root { color-scheme: light dark; --fg:#1c1c1e; --bg:#fbfbfd; --mut:#6b6b70; --line:#dcdce1; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#e9e9ec; --bg:#141416; --mut:#9a9aa1; --line:#2c2c31; }
+  }
+  body { margin:0 auto; padding:2.5rem 1rem; max-width:44rem; background:var(--bg); color:var(--fg);
+         font:16px/1.6 ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif; }
+  h1 { font-size:1.6rem; margin:0 0 .25rem; }
+  p.sub { color:var(--mut); margin:0 0 2rem; }
+  pre { background:color-mix(in srgb, var(--fg) 6%, transparent); border:1px solid var(--line);
+        border-radius:8px; padding:.85rem 1rem; overflow-x:auto; font-size:.9rem; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  h2 { font-size:1.05rem; margin:2rem 0 .5rem; }
+  a { color:inherit; }
+</style>
+<h1>biscuit-apk</h1>
+<p class="sub">Signed apk feed for the postmarketOS port of the Amazon Echo Dot 2 (2016, <code>biscuit</code>).</p>
+<h2>Add the feed</h2>
+<pre><code>wget -O /etc/apk/keys/biscuit-apk.rsa.pub \
+  https://liamtw22.github.io/biscuit-apk/biscuit-apk.rsa.pub
+echo 'https://liamtw22.github.io/biscuit-apk/edge' &gt;&gt; /etc/apk/repositories
+apk update</code></pre>
+<h2>Install</h2>
+<pre><code>apk add device-amazon-biscuit            # the device
+apk add device-amazon-biscuit-voice      # + voice assistant
+apk add device-amazon-biscuit-sendspin   # + music speaker</code></pre>
+<h2>Contents</h2>
+<pre><code><a href="edge/aarch64/">edge/aarch64/</a></code></pre>
+<p class="sub">Source: <a href="https://github.com/liamtw22/biscuit-apk">github.com/liamtw22/biscuit-apk</a></p>
