@@ -90,6 +90,23 @@ key's SHA-256 is printed by:
 sha256sum biscuit-apk.rsa.pub
 ```
 
+## Installing without a network
+
+A device that cannot reach GitHub - no route, a locked-down network, or a first
+boot before Wi-Fi is configured - can still install everything. The feed
+directory is already a valid apk repository, so the offline bundle is the same
+tree with the key beside it:
+
+```sh
+tools/make-offline-bundle.sh /path/to/built/feed biscuit-apk-offline.tar.gz
+```
+
+Copy the unpacked bundle to the device and follow its `INSTALL.txt`: install
+the key, then `apk add --repository "$PWD/edge" <package>`. Verified on hardware
+with every network repository disabled - and verified to REFUSE the repository
+as `UNTRUSTED signature` when the key is not installed first, so the offline
+path does not quietly teach `--allow-untrusted`.
+
 ## Repository layout
 
 `main` holds only this README, the public key and the publishing script — it
