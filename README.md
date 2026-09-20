@@ -37,26 +37,44 @@ does not have to be trusted. Verified on apk-tools 3.0.8: with no keys trusted
 the index is rejected as `UNTRUSTED signature`, with only this key trusted the
 packages install, and a package altered after indexing is refused.
 
-A future release of `device-amazon-biscuit` will ship the key and add the
-repository line itself; as of `6-r223` both steps above are still manual.
+From `6-r230` onward neither step is needed on a device that already has the
+core package: it ships this key at `/usr/share/biscuit/biscuit-apk.rsa.pub`, and
+the `biscuit-persist` service copies it into `/etc/apk/keys/` and adds the
+repository line on every boot. That matters because flashing an update replaces
+the rootfs, which is where both of them live - without it a device would quietly
+stop seeing its own updates.
 
 ## What is in the feed
 
 | Package | Contents |
 | --- | --- |
-| `device-amazon-biscuit-sendspin` | The [sendspin](https://github.com/liamtw22/sendspin-python-cli) player, its Python virtualenv, and the music visualiser that drives the LED ring. |
+| `device-amazon-biscuit` | Core device support: audio, the LED ring, Wi-Fi and Bluetooth bring-up, the `:8080` settings page, persistence and time sync. A device with only this is a working Bluetooth speaker with a web UI. |
+| `device-amazon-biscuit-voice` | Wake word detection and a Home Assistant voice satellite. |
+| `device-amazon-biscuit-sendspin` | The [sendspin](https://github.com/liamtw22/sendspin-python-cli) player and the music visualiser that drives the ring. |
+| `device-amazon-biscuit-pulseaudio` | Configuration, pulled in automatically if PulseAudio is installed. |
+
+The two applications are independent - install either, both or neither:
 
 ```sh
-apk add device-amazon-biscuit-sendspin
+apk add device-amazon-biscuit            # the device
+apk add device-amazon-biscuit-voice      # + voice assistant
+apk add device-amazon-biscuit-sendspin   # + music speaker
 ```
 
-This is the only package in the feed for now. It depends on
-`device-amazon-biscuit` at the *same* pkgrel, which is **not** distributed here:
-the core package embeds stock Fire OS assets that each owner has to extract from
-their own device, so it cannot be redistributed. Install it from your own
-`pmbootstrap` build first, then add sendspin from this feed.
+Both depend on the core package at the *same* pkgrel, so upgrade them together.
 
-The remaining subpackages (`-voice`, `-pulseaudio`) are not published here.
+## What is deliberately not here
+
+No Amazon assets. The LED ring runs on effects generated at runtime, and the
+beamformer weights are computed from the measured microphone geometry under a
+diffuse-field noise model rather than copied from anywhere. No earcons ship at
+all: with the voice assistant installed the device uses that project's own
+sounds, and without it it stays silent until its owner extracts stock sounds
+from their own hardware into `/opt/persist/earcon`.
+
+Stock's microphone tuning is still selectable, but only on a device whose owner
+has imported the coefficient files from their own stock partition. Those files
+are Amazon's and are never redistributed here.
 
 ## Verifying a download
 
