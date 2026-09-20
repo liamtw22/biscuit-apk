@@ -44,17 +44,19 @@ repository line itself; as of `6-r223` both steps above are still manual.
 
 | Package | Contents |
 | --- | --- |
-| `device-amazon-biscuit` | Core device support: audio (codec, DSP, earcons, ducking), LED ring, Wi-Fi/Bluetooth bring-up, the `:8080` settings UI, persistence and time sync. |
-| `device-amazon-biscuit-sendspin` | The [sendspin](https://github.com/liamtw22/sendspin-python-cli) player, its Python virtualenv, and the music visualiser that drives the LED ring. Requires the core package. |
-
-Install with:
+| `device-amazon-biscuit-sendspin` | The [sendspin](https://github.com/liamtw22/sendspin-python-cli) player, its Python virtualenv, and the music visualiser that drives the LED ring. |
 
 ```sh
 apk add device-amazon-biscuit-sendspin
 ```
 
-Other subpackages built from the same source (`-voice`, `-pulseaudio`) are not
-published here yet.
+This is the only package in the feed for now. It depends on
+`device-amazon-biscuit` at the *same* pkgrel, which is **not** distributed here:
+the core package embeds stock Fire OS assets that each owner has to extract from
+their own device, so it cannot be redistributed. Install it from your own
+`pmbootstrap` build first, then add sendspin from this feed.
+
+The remaining subpackages (`-voice`, `-pulseaudio`) are not published here.
 
 ## Verifying a download
 
