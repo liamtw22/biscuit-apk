@@ -1,0 +1,9 @@
+# Never commit the feed signing key. Only the public half belongs here.
+*.rsa
+!*.rsa.pub
+*.priv
+*.pem
+
+# Local staging of a feed before publishing.
+/feed/
+/edge/
