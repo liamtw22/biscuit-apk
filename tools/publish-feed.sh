@@ -71,11 +71,26 @@ cat > "$TMP/index.html" <<'HTML'
 echo 'https://liamtw22.github.io/biscuit-apk/edge' &gt;&gt; /etc/apk/repositories
 apk update</code></pre>
 <h2>Install</h2>
-<pre><code>apk add device-amazon-biscuit-sendspin</code></pre>
+<pre><code>apk add device-amazon-biscuit            # the device
+apk add device-amazon-biscuit-voice      # + voice assistant
+apk add device-amazon-biscuit-sendspin   # + music speaker</code></pre>
+<p class="sub">A device installed from a release zip already has the key and the feed configured.</p>
+<h2>Source</h2>
+<p>Packages: <a href="https://github.com/liamtw22/pmaports-biscuit">github.com/liamtw22/pmaports-biscuit</a><br>
+Kernel: <a href="https://github.com/liamtw22/linux-mtk/tree/biscuit-r243">github.com/liamtw22/linux-mtk</a> (branch <code>biscuit-r243</code>)<br>
+Feed tooling: <a href="https://github.com/liamtw22/biscuit-apk">github.com/liamtw22/biscuit-apk</a></p>
 <h2>Contents</h2>
-<pre><code><a href="edge/aarch64/">edge/aarch64/</a></code></pre>
-<p class="sub">Source: <a href="https://github.com/liamtw22/biscuit-apk">github.com/liamtw22/biscuit-apk</a></p>
 HTML
+
+# GitHub Pages serves no directory listings, so the page lists the files itself.
+{
+  echo '<pre><code>'
+  for f in "$SRC"/*.apk "$SRC/APKINDEX.tar.gz"; do
+    n=$(basename "$f")
+    echo "<a href=\"edge/$ARCH/$n\">edge/$ARCH/$n</a>"
+  done
+  echo '</code></pre>'
+} >> "$TMP/index.html"
 
 STAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
 COUNT=$(ls -1 "$SRC"/*.apk | wc -l | tr -d ' ')

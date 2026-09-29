@@ -50,8 +50,10 @@ stop seeing its own updates.
 | --- | --- |
 | `device-amazon-biscuit` | Core device support: audio, the LED ring, Wi-Fi and Bluetooth bring-up, the `:8080` settings page, persistence and time sync. A device with only this is a working Bluetooth speaker with a web UI. |
 | `device-amazon-biscuit-voice` | Wake word detection and a Home Assistant voice satellite. |
-| `device-amazon-biscuit-sendspin` | The [sendspin](https://github.com/liamtw22/sendspin-python-cli) player and the music visualiser that drives the ring. |
+| `device-amazon-biscuit-sendspin` | The [Sendspin](https://github.com/Sendspin/sendspin-cli) player and the music visualiser that drives the ring. |
 | `device-amazon-biscuit-pulseaudio` | Configuration, pulled in automatically if PulseAudio is installed. |
+| `device-amazon-biscuit-nonfree-firmware` | No firmware: only the list that tells `mkinitfs` to put the owner's own imported firmware into the initramfs. |
+| `linux-amazon-biscuit` | The kernel. Source: [liamtw22/linux-mtk](https://github.com/liamtw22/linux-mtk/tree/biscuit-r243), branch `biscuit-r243`; the release page also carries a complete source archive. |
 
 The two applications are independent - install either, both or neither:
 
@@ -115,7 +117,7 @@ stays a few kilobytes so cloning it is cheap.
 The feed itself lives on the orphan branch `gh-pages`, which is **replaced by a
 single fresh commit on every publish**. Package binaries therefore never
 accumulate in history: a clone of the feed costs one copy of the current
-packages (~50 MB) no matter how many releases have been made.
+packages (about 65 MB) no matter how many releases have been made.
 
 To publish a newly built feed:
 
