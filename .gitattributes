@@ -1,0 +1,5 @@
+# This machine has core.autocrlf=true; apk indexes, keys and scripts must
+# never gain CRLF or their signatures and shebangs break.
+* -text
+*.apk binary
+*.tar.gz binary
