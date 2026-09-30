@@ -92,6 +92,35 @@ HTML
   echo '</code></pre>'
 } >> "$TMP/index.html"
 
+# The repository URL people copy from the posts is .../edge, and a browser
+# opening it (or .../edge/aarch64/) got Pages' bare 404, which reads as a dead
+# feed. apk never asks for these directories - it appends
+# /<arch>/APKINDEX.tar.gz - so a small page in each changes nothing for apk.
+# $1 file, $2 page title, $3 path back to the site root; the body is on stdin.
+dir_page() {
+  {
+    printf '<!doctype html>\n<meta charset="utf-8">\n<title>%s</title>\n' "$2"
+    echo '<meta name="viewport" content="width=device-width,initial-scale=1">'
+    echo '<style>body{margin:0 auto;padding:2rem 1rem;max-width:44rem;font:16px/1.6 ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif}'
+    echo 'code{font-family:ui-monospace,Menlo,Consolas,monospace}</style>'
+    printf '<h1>%s</h1>\n' "$2"
+    echo '<p>This is an apk package repository for the Echo Dot 2 postmarketOS port. It is used by <code>apk</code> on the device, not browsed:'
+    printf ' see <a href="%s">the feed page</a> for how to add it.</p>\n' "$3"
+    cat
+  } > "$1"
+}
+dir_page "$TMP/edge/index.html" "biscuit-apk: edge" "../" <<HTML
+<p><a href="$ARCH/">$ARCH/</a></p>
+HTML
+{
+  echo '<pre><code>'
+  for f in "$SRC"/*.apk "$SRC/APKINDEX.tar.gz"; do
+    n=$(basename "$f")
+    echo "<a href=\"$n\">$n</a>"
+  done
+  echo '</code></pre>'
+} | dir_page "$TMP/edge/$ARCH/index.html" "biscuit-apk: edge/$ARCH" "../../"
+
 STAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
 COUNT=$(ls -1 "$SRC"/*.apk | wc -l | tr -d ' ')
 
